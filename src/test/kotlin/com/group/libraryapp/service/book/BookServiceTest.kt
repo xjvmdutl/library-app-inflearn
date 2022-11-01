@@ -3,8 +3,8 @@ package com.group.libraryapp.service.book
 import com.group.libraryapp.domain.book.Book
 import com.group.libraryapp.domain.book.BookRepository
 import com.group.libraryapp.domain.user.User
-import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory
+import com.group.libraryapp.domain.user.UserRepository
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistoryRepository
 import com.group.libraryapp.dto.book.request.BookLoanRequest
 import com.group.libraryapp.dto.book.request.BookRequest
@@ -52,7 +52,12 @@ class BookServiceTest @Autowired constructor(
     fun loanBookTest() {
         //given
         bookRepository.save(Book("이상한 나라의 엘리스"))
-        val savedUser = userRepository.save(User("최태현", null))
+        val savedUser = userRepository.save(
+            User(
+                "최태현",
+                null
+            )
+        )
         val request = BookLoanRequest("최태현", "이상한 나라의 엘리스")
 
         //when
@@ -88,8 +93,19 @@ class BookServiceTest @Autowired constructor(
     @DisplayName("책 반납이 정상 동작한다")
     fun returnBookTest() {
         //given
-        val savedUser = userRepository.save(User("최태현", null))
-        userLoanHistoryRepository.save(UserLoanHistory(savedUser, "이상한 나라의 엘리스", false)) //대출 중인 상태
+        val savedUser = userRepository.save(
+            User(
+                "최태현",
+                null
+            )
+        )
+        userLoanHistoryRepository.save(
+            UserLoanHistory(
+                savedUser,
+                "이상한 나라의 엘리스",
+                false
+            )
+        ) //대출 중인 상태
         val request = BookReturnRequest("최태현", "이상한 나라의 엘리스")
 
         //when
