@@ -1,7 +1,9 @@
 package com.group.libraryapp.controller.user
 
+import com.group.libraryapp.controller.USER
 import com.group.libraryapp.dto.user.request.UserCreateRequest
 import com.group.libraryapp.dto.user.request.UserUpdateRequest
+import com.group.libraryapp.dto.user.response.UserLoanHistoryResponse
 import com.group.libraryapp.dto.user.response.UserResponse
 import com.group.libraryapp.service.user.UserService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(
     private val userService: UserService,
 ) {
-
+    //@PostMapping(USER)
     @PostMapping("/user")
     fun saveUser(@RequestBody request: UserCreateRequest) {
         userService.saveUser(request)
@@ -31,5 +33,10 @@ class UserController(
     @DeleteMapping("/user")
     fun deleteUser(@RequestParam name: String){ //?연산자를 붙이면 스프링이 required = false설정을 한다
         userService.deleteUser(name)
+    }
+
+    @GetMapping("/user/loan")
+    fun getUserLoanHistories(): List<UserLoanHistoryResponse>{
+        return userService.getUserLoanHistories()
     }
 }
